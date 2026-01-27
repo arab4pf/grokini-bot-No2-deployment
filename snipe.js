@@ -4,11 +4,16 @@
  * Features: Jupiter Swaps, Price Alerts, Wallet Management, Multi-User Support
  */
 
-require('dotenv').config();
+// Load dotenv only in local environment (not needed in Railway/Vercel)
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv not available, using environment variables directly
+}
+
 const TelegramBot = require('node-telegram-bot-api');
 const { Connection, PublicKey, Keypair, LAMPORTS_PER_SOL } = require('@solana/web3.js');
 const bs58 = require('bs58');
-const fetch = require('node-fetch');
 
 // ============================================
 // CONFIGURATION
@@ -445,7 +450,7 @@ bot.onText(/\/help/, async (msg) => {
   const chatId = msg.chat.id;
   
   const helpMessage = `
-📖 *Grokini Bot Commands*
+*Grokini Bot Commands*
 
 *General:*
 /start - Main menu
@@ -464,6 +469,12 @@ bot.onText(/\/help/, async (msg) => {
 /alerts - View your alerts
 /removealert <id> - Remove an alert
 
+*Coming Soon:*
+/dca - DCA Manager
+/limitorder - Limit Orders
+/copytrading - Copy Trading
+/referrals - Referral Program
+
 *Settings:*
 /slippage <bps> - Set slippage (e.g., 100 = 1%)
 /settings - View current settings
@@ -475,6 +486,105 @@ bot.onText(/\/help/, async (msg) => {
   `;
 
   await bot.sendMessage(chatId, helpMessage, { parse_mode: 'Markdown' });
+});
+
+// ============================================
+// COMING SOON COMMAND HANDLERS
+// ============================================
+bot.onText(/\/dca/, async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, `
+📈 *DCA Manager*
+
+Dollar Cost Averaging allows you to automatically invest a fixed amount at regular intervals.
+
+🚧 *Coming Soon!*
+
+This feature is under development. You will be able to:
+• Set up recurring buys
+• Choose interval (hourly, daily, weekly)
+• Select tokens and amounts
+• Track DCA performance
+
+Stay tuned for updates!
+  `, { 
+    parse_mode: 'Markdown',
+    reply_markup: {
+      inline_keyboard: [[{ text: '🔙 Back to Menu', callback_data: 'main_menu' }]],
+    },
+  });
+});
+
+bot.onText(/\/limitorder/, async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, `
+🎯 *Limit Orders*
+
+Set buy or sell orders at your target prices.
+
+🚧 *Coming Soon!*
+
+This feature is under development. You will be able to:
+• Create buy limit orders
+• Create sell limit orders
+• Set expiration times
+• View and cancel pending orders
+
+Stay tuned for updates!
+  `, { 
+    parse_mode: 'Markdown',
+    reply_markup: {
+      inline_keyboard: [[{ text: '🔙 Back to Menu', callback_data: 'main_menu' }]],
+    },
+  });
+});
+
+bot.onText(/\/copytrading/, async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, `
+👥 *Copy Trading*
+
+Follow successful traders and automatically mirror their trades.
+
+🚧 *Coming Soon!*
+
+This feature is under development. You will be able to:
+• Browse top performing traders
+• Follow traders automatically
+• Set copy amounts and limits
+• Track copy trading performance
+
+Stay tuned for updates!
+  `, { 
+    parse_mode: 'Markdown',
+    reply_markup: {
+      inline_keyboard: [[{ text: '🔙 Back to Menu', callback_data: 'main_menu' }]],
+    },
+  });
+});
+
+bot.onText(/\/referrals/, async (msg) => {
+  const chatId = msg.chat.id;
+  await bot.sendMessage(chatId, `
+🎁 *Referral Program*
+
+Invite friends and earn rewards!
+
+🚧 *Coming Soon!*
+
+This feature is under development. You will be able to:
+• Generate your unique referral link
+• Track referral signups
+• Earn commission on trades
+• Withdraw referral earnings
+
+Stay tuned for updates!
+  `, { 
+    parse_mode: 'Markdown',
+    reply_markup: {
+      inline_keyboard: [[{ text: '🔙 Back to Menu', callback_data: 'main_menu' }]],
+    },
+  });
 });
 
 bot.onText(/\/wallet/, async (msg) => {
@@ -865,7 +975,11 @@ Dollar Cost Averaging allows you to automatically invest a fixed amount at regul
 
 🚧 *Coming Soon!*
 
-This feature is under development.
+This feature is under development. You will be able to:
+• Set up recurring buys
+• Choose interval (hourly, daily, weekly)
+• Select tokens and amounts
+• Track DCA performance
       `, {
         chat_id: chatId,
         message_id: messageId,
@@ -886,7 +1000,11 @@ Set buy or sell orders at your target prices.
 
 🚧 *Coming Soon!*
 
-This feature is under development.
+This feature is under development. You will be able to:
+• Create buy limit orders
+• Create sell limit orders
+• Set expiration times
+• View and cancel pending orders
       `, {
         chat_id: chatId,
         message_id: messageId,
@@ -907,7 +1025,11 @@ Follow successful traders and automatically mirror their trades.
 
 🚧 *Coming Soon!*
 
-This feature is under development.
+This feature is under development. You will be able to:
+• Browse top performing traders
+• Follow traders automatically
+• Set copy amounts and limits
+• Track copy trading performance
       `, {
         chat_id: chatId,
         message_id: messageId,
@@ -928,7 +1050,11 @@ Invite friends and earn rewards!
 
 🚧 *Coming Soon!*
 
-This feature is under development.
+This feature is under development. You will be able to:
+• Generate your unique referral link
+• Track referral signups
+• Earn commission on trades
+• Withdraw referral earnings
       `, {
         chat_id: chatId,
         message_id: messageId,
